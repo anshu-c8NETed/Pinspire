@@ -1,0 +1,1 @@
+         <a href="#" class="mt-3 px-7 py-2 bg-zinc-600 rounded-full text-xs font-semibold">Edit</a>

@@ -1,0 +1,126 @@
+<% include ./partials/header.ejs %>
+<link rel="stylesheet" href="/stylesheets/profile.css">
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-zinc-900/95 backdrop-blur-md border-b border-zinc-700/50 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <!-- Logo with Pinterest Image -->
+            <div class="flex-shrink-0 flex items-center space-x-3">
+                <!-- Pinterest Logo Image -->
+                <div class="relative">
+                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 overflow-hidden">
+                        <img 
+                            src="https://i.pinimg.com/736x/60/9c/87/609c879e0ae5455963d7d1e370c06bad.jpg" 
+                            alt="Pinterest Logo" 
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <!-- Subtle glow effect -->
+                    <div class="absolute inset-0 w-12 h-12 bg-red-500 rounded-2xl opacity-10 blur-lg animate-pulse"></div>
+                </div>
+                
+                <!-- Stacked Text -->
+                <div class="flex flex-col items-start">
+                    <h3 class="text-xl font-bold text-white leading-tight">
+                        Pinspire
+                    </h3>
+                    <span class="text-xs text-zinc-400 font-medium tracking-wide">
+                        Discover Ideas
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:block">
+                <div class="ml-10 flex items-baseline space-x-8">
+                    <a href="/profile" class="text-zinc-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:bg-zinc-800/50">
+                        Profile
+                    </a>
+                    <a href="/feed" class="text-zinc-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:bg-zinc-800/50">
+                        Feed
+                    </a>
+                    <a href="/logout" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-red-500/25">
+                        Logout
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-zinc-400 hover:text-white hover:bg-zinc-800 p-2 rounded-md transition-colors duration-300">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path class="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path class="close-icon hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-zinc-900/98 backdrop-blur-lg border-t border-zinc-700/50">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="/profile" class="text-zinc-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-all duration-300 hover:bg-zinc-800/50">
+                Profile
+            </a>
+            <a href="/feed" class="text-zinc-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-all duration-300 hover:bg-zinc-800/50">
+                Feed
+            </a>
+            <a href="/logout" class="bg-gradient-to-r from-red-600 to-red-700 text-white block px-3 py-2 rounded-md text-base font-medium mt-3 transition-all duration-300 hover:from-red-700 hover:to-red-800">
+                Logout
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="profile">
+    <!-- Hidden upload form -->
+    <form id="uploadform" class="hidden" action="/fileupload" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*">
+    </form>
+    
+    <!-- Profile Details Section -->
+    <div class="profdets">
+        <div class="profile-image-container">
+            <span id="uploadicon" class="profile-upload-icon">
+                <i class="ri-pencil-fill"></i>
+            </span>
+            <div class="profile-image">
+                <img src="/images/uploads/<%= user.profileimg %>" alt="<%= user.fullname %> Profile Picture" onerror="this.src='https://via.placeholder.com/128x128/e4e4e7/9ca3af?text=<%= user.fullname.charAt(0).toUpperCase() %>'">
+            </div>
+        </div>
+        
+        <h1 class="profile-name"><%= user.fullname %></h1>
+        <h3 class="profile-username">@<%= user.username %></h3>
+        
+        <a href="/add" class="add-post-btn">
+            <i class="ri-add-line" style="margin-right: 0.5rem;"></i>
+            Add New Pin
+        </a>
+    </div>
+    
+    <!-- Cards Section -->
+    <div class="cards-section">
+        <div class="cards">
+            <div class="pins-card">
+                <div class="pins-card-image">
+                    <% if (user?.posts[0]?.image) { %>
+                        <img src="/images/uploads/<%= user.posts[0].image %>" alt="Your latest pin" loading="lazy">
+                    <% } else { %>
+                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(135deg, #374151, #4b5563); color: #9ca3af;">
+                            <i class="ri-image-line" style="font-size: 2rem;"></i>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="pins-card-content">
+                    <a href="/show/posts" class="pins-card-title">Your Pins</a>
+                    <h5 class="pins-card-subtitle"><%= user.posts.length %> Pin<%= user.posts.length !== 1 ? 's' : '' %></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/javascripts/profile.js"></script>
+<% include ./partials/footer.ejs %>

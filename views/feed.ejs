@@ -1,0 +1,45 @@
+<% include ./partials/header.ejs %>
+<link rel="stylesheet" href="/stylesheets/feed.css">
+<nav class="nav">
+    <div class="nav-container">
+        <div class="logo-section">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="https://i.pinimg.com/736x/60/9c/87/609c879e0ae5455963d7d1e370c06bad.jpg" alt="Pinterest Logo">
+                </div>
+                <div class="logo-glow"></div>
+            </div>
+            <div class="brand-text">
+                <h3>Pinspire</h3>
+                <span>Discover Ideas</span>
+            </div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="/profile" class="nav-link">Profile</a>
+            <a href="/feed" class="nav-link">Feed</a>
+            <a href="/logout" class="nav-link logout-btn">Logout</a>
+        </div>
+        
+        <button class="mobile-menu-btn">☰</button>
+    </div>
+</nav>
+
+<div class="main-content">
+    <div class="container">
+        <div class="cards">
+            <% posts.forEach(function(elem){ %>
+                <div class="card">
+                    <div class="w-full rounded-lg overflow-hidden">
+                        <img class="w-full object-cover" src="/images/uploads/<%= elem.image%>" alt="<%= elem.title %>" loading="lazy">
+                    </div>
+                    <h5 class="mt-2 text-sm"><%= elem.title %></h5>
+                    <h6 class="text-xs font-semibold opacity-50">by @<%= elem.user.username %></h6>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+    <script src="/javascripts/feed.js"></script>
+<% include ./partials/footer.ejs %>
