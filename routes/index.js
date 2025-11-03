@@ -83,7 +83,7 @@ router.post('/createpost', isLoggedIn, upload.single("postimage"), async functio
       user: user._id,
       title: req.body.title,
       description: req.body.description,
-      image: req.file.filename
+      image: req.file.path  
     });
     user.posts.push(post._id);
     await user.save();
@@ -118,7 +118,7 @@ router.post('/register', function(req, res, next) {
 router.post('/fileupload', isLoggedIn, upload.single("image"), async function(req, res, next) {
   try {
     const user = await userModel.findOne({username: req.session.passport.user}).maxTimeMS(10000);
-    user.profileimg = req.file.filename;
+   user.profileimg = req.file.path;
     await user.save(); 
     res.redirect("/profile");
   } catch (error) {
