@@ -36,7 +36,7 @@
                     <% user.posts.forEach(function(elem){ %>
                         <div class="card">
                             <div class="w-full rounded-lg overflow-hidden">
-                                <img class="w-full object-cover" src="/images/uploads/<%= elem.image%>" alt="<%= elem.title %>" loading="lazy">
+                                <img class="w-full object-cover" src="<%= elem.image %>" alt="<%= elem.title %>" loading="lazy">
                             </div>
                             <h5 class="mt-2 text-sm"><%= elem.title %></h5>
                             <h6 class="text-xs font-semibold opacity-50">by @<%= user.username %></h6>
@@ -55,4 +55,5 @@
 </div>
 
 <script src="/javascripts/show.js"></script>
+
 <% include ./partials/footer.ejs %>
